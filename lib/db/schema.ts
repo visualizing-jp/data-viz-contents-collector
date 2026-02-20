@@ -47,6 +47,7 @@ export const contents = pgTable(
     description:  text("description"),
     rawData:      text("raw_data"),       // JSON
     collectedAt:  timestamp("collected_at").defaultNow().notNull(),
+    starred:      boolean("starred").notNull().default(false),
   },
   (t) => [unique("uniq_source_external").on(t.sourceId, t.externalId)]
 );
