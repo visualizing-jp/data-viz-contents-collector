@@ -1,0 +1,28 @@
+name: Collect and Tag
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # 毎時0分に実行
+  workflow_dispatch:        # 手動実行も可能
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect RSS contents
+        run: |
+          curl -s -f -X POST "${{ vars.APP_URL }}/api/collect" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            | jq .
+
+  tag:
+    runs-on: ubuntu-latest
+    needs: collect
+    steps:
+      - name: Auto-tag new contents
+        run: |
+          curl -s -f -X POST "${{ vars.APP_URL }}/api/tag" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            | jq .
