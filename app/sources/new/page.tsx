@@ -2,7 +2,8 @@ import { db } from "@/lib/db";
 import { publishers } from "@/lib/db/schema";
 import { createSource } from "@/lib/actions/sources";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default async function NewSourcePage() {
   const publisherList = await db
@@ -11,7 +12,26 @@ export default async function NewSourcePage() {
     .orderBy(publishers.name);
 
   if (publisherList.length === 0) {
-    redirect("/publishers/new");
+    return (
+      <div className="max-w-lg">
+        <div className="mb-6 flex items-center gap-3">
+          <Link href="/sources" className="text-sm text-gray-500 hover:text-gray-700">
+            ← ソース一覧
+          </Link>
+          <h1 className="text-2xl font-bold">新規ソース登録</h1>
+        </div>
+        <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center text-gray-500">
+          <p className="text-base font-medium">パブリッシャーがまだ登録されていません</p>
+          <p className="mt-1 text-sm">ソースを登録するには、先にパブリッシャーを作成してください。</p>
+          <Link
+            href="/publishers/new"
+            className="mt-4 inline-block rounded-md bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+          >
+            パブリッシャーを登録する
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (

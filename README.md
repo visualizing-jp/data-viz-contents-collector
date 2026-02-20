@@ -103,6 +103,7 @@ NeonはVercelとのインテグレーションがあり、[Vercel Marketplace](h
 ## ドキュメント
 
 - [セットアップガイド](docs/setup.md)
+- [運用ガイド](docs/operations.md)
 - [アーキテクチャ](docs/architecture.md)
 - [DBスキーマ](docs/database-schema.md)
 - [コレクター設定](docs/collectors.md)
