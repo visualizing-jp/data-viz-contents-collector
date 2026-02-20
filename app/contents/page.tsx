@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/db";
 import { contents, sources, publishers, contentTags, tags } from "@/lib/db/schema";
-import { desc, eq, ilike, or, sql } from "drizzle-orm";
+import { desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
 
 const PAGE_SIZE = 24;
 
@@ -72,7 +72,7 @@ export default async function ContentsPage({
         .select({ contentId: contentTags.contentId, tagName: tags.name })
         .from(contentTags)
         .innerJoin(tags, eq(contentTags.tagId, tags.id))
-        .where(sql`${contentTags.contentId} = ANY(ARRAY[${sql.join(contentIds.map(id => sql`${id}`), sql`, `)}])`)
+        .where(inArray(contentTags.contentId, contentIds))
     : [];
 
   const tagsByContentId = tagRows.reduce<Record<number, string[]>>((acc, row) => {
