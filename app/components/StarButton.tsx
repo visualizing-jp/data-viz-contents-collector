@@ -13,7 +13,7 @@ export function StarButton({ id, starred }: { id: number; starred: boolean }) {
         startTransition(() => toggleStarred(id, !starred));
       }}
       disabled={isPending}
-      className="absolute top-1.5 right-1.5 rounded-full p-1 bg-white/80 hover:bg-white transition-colors shadow-sm"
+      className="absolute top-1.5 right-1.5 rounded-md w-7 h-7 flex items-center justify-center bg-white/80 hover:bg-white transition-colors shadow-sm"
       title={starred ? "☆をはずす" : "☆をつける"}
     >
       <span className={`text-base leading-none ${starred ? "text-yellow-400" : "text-gray-300 hover:text-yellow-300"}`}>
